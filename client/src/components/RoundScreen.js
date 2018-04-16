@@ -8,7 +8,7 @@ class RoundScreen extends Component {
     super(props);
 
     this.state = {
-      move: "paper"
+      move: "rock"
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -54,8 +54,8 @@ class RoundScreen extends Component {
                 value={this.state.move}
                 onChange={this.handleChange}
               >
-                <option value="paper">Paper</option>
                 <option value="rock">Rock</option>
+                <option value="paper">Paper</option>
                 <option value="scissors">Scissors</option>
               </select>
             </div>
