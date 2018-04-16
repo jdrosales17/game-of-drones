@@ -1,0 +1,68 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  background-color: #30336b;
+  height: 100vh;
+}
+
+.Header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10px;
+  color: white;
+}
+
+.Header-title {
+  margin-top: 10px;
+  font-size: 2.5em;
+}
+
+.Header-subtitle {
+  font-size: 1.5em;
+  margin: 10px;
+}
+
+.Body {
+  margin-left: 35vw;
+  margin-right: 35vw;
+}
+
+.Input-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+.Label {
+  width: 35%;
+  margin-right: 5px;
+  font-size: 0.9em;
+  text-align: left;
+  color: white;
+}
+
+.Form-control {
+  width: 65%;
+  padding: 4px 8px;
+  font-size: 14px;
+  font-family: 'Gugi', cursive;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.Button {
+  margin-top: 25px;
+  margin-bottom: 25px;
+  padding: 4px 8px;
+  font-size: 14px;
+  font-family: 'Gugi', cursive;
+  color: #555;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
