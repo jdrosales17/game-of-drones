@@ -31,36 +31,68 @@ class RoundScreen extends Component {
   }
 
   render() {
-    const roundNumber = Math.min(this.props.p1Moves.length, this.props.p2Moves.length) + 1;
+    const roundNumber = this.props.isP1Turn
+      ? this.props.rounds.length + 1
+      : this.props.rounds.length;
     const activePlayer = this.props.isP1Turn
       ? this.props.p1Name
       : this.props.p2Name;
 
     return (
-      <div className="App">
-        <div className="Header">
-          <h1 className="Header-title">Round #{roundNumber}</h1>
-          <span className="Header-subtitle">{activePlayer}'s Turn</span>
+      <div className="RoundScreen">
+        <div className="Flex-col-container">
+          <div className="Header">
+            <h1 className="Header-title">Round #{roundNumber}</h1>
+            <span className="Header-subtitle">{activePlayer}'s Turn</span>
+          </div>
+          <div>
+            <form onSubmit={this.handleSubmit}>
+              <div className="Input-group">
+                <label className="Label" htmlFor="move">
+                  Select Move:
+                </label>
+                <select
+                  id="move"
+                  className="Form-control"
+                  value={this.state.move}
+                  onChange={this.handleChange}
+                >
+                  <option value="rock">Rock</option>
+                  <option value="paper">Paper</option>
+                  <option value="scissors">Scissors</option>
+                </select>
+              </div>
+              <input
+                className="Button"
+                style={{ width: "50%" }}
+                type="submit"
+                value="Ok"
+              />
+            </form>
+          </div>
         </div>
-        <div className="Body">
-          <form onSubmit={this.handleSubmit}>
-            <div className="Input-group">
-              <label className="Label" htmlFor="move">
-                Select Move:
-              </label>
-              <select
-                id="move"
-                className="Form-control"
-                value={this.state.move}
-                onChange={this.handleChange}
-              >
-                <option value="rock">Rock</option>
-                <option value="paper">Paper</option>
-                <option value="scissors">Scissors</option>
-              </select>
+        <div className="Flex-col-container">
+          <div className="Header">
+            <h1 className="Header-title">Score</h1>
+          </div>
+          <div className="Score">
+            <div className="Score-row">
+              <label className="Score-element">Round</label>
+              <label className="Score-element">Winner</label>
             </div>
-            <input className="Button" style={{ width: "50%" }} type="submit" value="Ok" />
-          </form>
+            {this.props.rounds.map((round, index) => {
+              if (round.p1Move && round.p2Move) {
+                return (
+                  <div className="Score-row">
+                    <label className="Score-element">{index + 1}</label>
+                    <label className="Score-element">
+                      {round.winner ? round.winner : "Draw"}
+                    </label>
+                  </div>
+                );
+              }
+            })}
+          </div>
         </div>
       </div>
     );
@@ -71,8 +103,7 @@ const mapStateToProps = state => {
   return {
     p1Name: state.p1Name,
     p2Name: state.p2Name,
-    p1Moves: state.p1Moves,
-    p2Moves: state.p2Moves,
+    rounds: state.rounds,
     isP1Turn: state.isP1Turn
   };
 };

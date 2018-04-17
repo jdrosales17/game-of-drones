@@ -3,8 +3,7 @@ import { types } from "./actions";
 const initialState = {
   p1Name: "",
   p2Name: "",
-  p1Moves: [],
-  p2Moves: [],
+  rounds: [],
   isP1Turn: true,
   p1Score: 0,
   p2Score: 0,
@@ -17,18 +16,26 @@ const configuration = [
   { move: "scissors", kills: "paper" }
 ];
 
-function calculateRoundWinner(p1Move, p2Move) {
+function calculateRoundWinner (p1Move, p2Move, p1Name, p2Name) {
   for (let i = 0; i < configuration.length; i++) {
     if (p1Move === configuration[i].move && p2Move === configuration[i].kills) {
-      return "P1";
-    } else if (
-      p2Move === configuration[i].move &&
-      p1Move === configuration[i].kills
-    ) {
-      return "P2";
+      return {
+        p1Move: p1Move,
+        p2Move: p2Move,
+        winner: p1Name
+      };
+    } else if (p2Move === configuration[i].move && p1Move === configuration[i].kills) {
+      return {
+        p1Move: p1Move,
+        p2Move: p2Move,
+        winner: p2Name
+      };
     }
   }
-  return null;
+  return {
+    p1Move: p1Move,
+    p2Move: p2Move
+  };
 }
 
 const reducer = (state = initialState, action) => {
@@ -43,39 +50,45 @@ const reducer = (state = initialState, action) => {
     }
 
     case types.DO_P1_MOVE: {
-      const updatedP1Moves = [...state.p1Moves, action.payload];
+      const newRound = { p1Move: action.payload };
+      const updatedRounds = [...state.rounds, newRound];
       return {
         ...state,
-        p1Moves: updatedP1Moves,
+        rounds: updatedRounds,
         isP1Turn: false
       };
     }
 
     case types.DO_P2_MOVE: {
-      const updatedP2Moves = [...state.p2Moves, action.payload];
-      const roundWinner = calculateRoundWinner(
-        state.p1Moves[state.p1Moves.length - 1],
-        updatedP2Moves[updatedP2Moves.length - 1]
+      const roundCompleted = calculateRoundWinner(
+        state.rounds[state.rounds.length - 1].p1Move,
+        action.payload,
+        state.p1Name,
+        state.p2Name
       );
+      const updatedRounds = [
+        ...state.rounds.slice(0, -1),
+        roundCompleted
+      ];
 
-      if (roundWinner === "P1") {
+      if (roundCompleted.winner === state.p1Name) {
         return {
           ...state,
-          p2Moves: updatedP2Moves,
+          rounds: updatedRounds,
           isP1Turn: true,
           p1Score: state.p1Score + 1
         };
-      } else if (roundWinner === "P2") {
+      } else if (roundCompleted.winner === state.p2Name) {
         return {
           ...state,
-          p2Moves: updatedP2Moves,
+          rounds: updatedRounds,
           isP1Turn: true,
           p2Score: state.p2Score + 1
         };
       } else {
         return {
           ...state,
-          p2Moves: updatedP2Moves,
+          rounds: updatedRounds,
           isP1Turn: true
         };
       }

@@ -7,6 +7,24 @@
   height: 100vh;
 }
 
+.RoundScreen {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  text-align: center;
+  background-color: #30336b;
+  height: 100vh;
+}
+
+.Flex-col-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
 .Header {
   display: flex;
   flex-direction: column;
@@ -23,6 +41,26 @@
 .Header-subtitle {
   font-size: 1.5em;
   margin: 10px;
+}
+
+.Score {
+  font-size: 0.9em;
+  color: white;
+}
+
+.Score-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Score-element {
+  width: 35%;
+  margin-right: 5px;
+  font-size: 0.9em;
+  text-align: center;
+  color: white;
 }
 
 .Body {
