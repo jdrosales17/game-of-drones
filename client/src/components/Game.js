@@ -16,7 +16,7 @@ class Game extends Component {
     } else if(this.props.p2Score >= 3 && this.props.p1Score < 3) {
       return "P2";
     }
-    return "";
+    return null;
   }
 
   render() {

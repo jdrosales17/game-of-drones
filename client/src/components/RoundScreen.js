@@ -76,21 +76,22 @@ class RoundScreen extends Component {
             <h1 className="Header-title">Score</h1>
           </div>
           <div className="Score">
-            <div className="Score-row">
-              <label className="Score-element">Round</label>
-              <label className="Score-element">Winner</label>
+            <div className="List-row">
+              <label className="List-element">Round</label>
+              <label className="List-element">Winner</label>
             </div>
             {this.props.rounds.map((round, index) => {
               if (round.p1Move && round.p2Move) {
                 return (
-                  <div className="Score-row">
-                    <label className="Score-element">{index + 1}</label>
-                    <label className="Score-element">
+                  <div key={index} className="List-row">
+                    <label className="List-element">{index + 1}</label>
+                    <label className="List-element">
                       {round.winner ? round.winner : "Draw"}
                     </label>
                   </div>
                 );
               }
+              return null;
             })}
           </div>
         </div>

@@ -48,14 +48,14 @@
   color: white;
 }
 
-.Score-row {
+.List-row {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
 }
 
-.Score-element {
+.List-element {
   width: 35%;
   margin-right: 5px;
   font-size: 0.9em;

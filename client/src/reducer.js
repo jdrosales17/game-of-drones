@@ -7,7 +7,10 @@ const initialState = {
   isP1Turn: true,
   p1Score: 0,
   p2Score: 0,
-  gameStarted: false
+  allPlayers: [],
+  gameStarted: false,
+  showLeaderboard: false,
+  loading: false
 };
 
 const configuration = [
@@ -16,7 +19,7 @@ const configuration = [
   { move: "scissors", kills: "paper" }
 ];
 
-function calculateRoundWinner (p1Move, p2Move, p1Name, p2Name) {
+function calculateRoundWinner(p1Move, p2Move, p1Name, p2Name) {
   for (let i = 0; i < configuration.length; i++) {
     if (p1Move === configuration[i].move && p2Move === configuration[i].kills) {
       return {
@@ -24,7 +27,10 @@ function calculateRoundWinner (p1Move, p2Move, p1Name, p2Name) {
         p2Move: p2Move,
         winner: p1Name
       };
-    } else if (p2Move === configuration[i].move && p1Move === configuration[i].kills) {
+    } else if (
+      p2Move === configuration[i].move &&
+      p1Move === configuration[i].kills
+    ) {
       return {
         p1Move: p1Move,
         p2Move: p2Move,
@@ -66,10 +72,7 @@ const reducer = (state = initialState, action) => {
         state.p1Name,
         state.p2Name
       );
-      const updatedRounds = [
-        ...state.rounds.slice(0, -1),
-        roundCompleted
-      ];
+      const updatedRounds = [...state.rounds.slice(0, -1), roundCompleted];
 
       if (roundCompleted.winner === state.p1Name) {
         return {
@@ -94,9 +97,52 @@ const reducer = (state = initialState, action) => {
       }
     }
 
-    case types.DO_PLAY_AGAIN: {
+    case types.GO_TO_GAME_MENU: {
+      return {
+        ...state,
+        showLeaderboard: false
+      };
+    }
+
+    case types.SAVE_GAME_START: {
+      return {
+        ...state,
+        loading: true
+      };
+    }
+
+    case types.SAVE_GAME_SUCCESS: {
       return {
         ...initialState
+      };
+    }
+
+    case types.SAVE_GAME_FAIL: {
+      return {
+        ...initialState
+      };
+    }
+
+    case types.FETCH_PLAYERS_START: {
+      return {
+        ...state,
+        showLeaderboard: true,
+        loading: true
+      };
+    }
+
+    case types.FETCH_PLAYERS_SUCCESS: {
+      return {
+        ...state,
+        allPlayers: action.payload,
+        loading: false
+      };
+    }
+
+    case types.FETCH_PLAYERS_FAIL: {
+      return {
+        ...state,
+        loading: false
       };
     }
 
